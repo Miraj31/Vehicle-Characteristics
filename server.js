@@ -22,7 +22,7 @@ app.get('/',(req, res) => {
 app.post('/search', (req, res) => {
     const searchName = req.body.name.toLowerCase();
     const workbook = new excel.Workbook();
-    workbook.xlsx.readFile("./data1.xlsx").then(() => {
+    workbook.xlsx.readFile("data1.xlsx").then(() => {
         const worksheet = workbook.getWorksheet(1);
         let result = null;
 
