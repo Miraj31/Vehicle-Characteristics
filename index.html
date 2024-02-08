@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Search App</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        margin-right: 10px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    select {
+        padding: 8px;
+        margin-right: 10px;
+    }
+
+    option {
+        text-align: center;
+    }
+
+    button {
+        padding: 8px 16px;
+        cursor: pointer;
+        background-color: #5cb85c;
+        border: 1px solid #5cb85c;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 500;
+        border-radius: 5px;
+    }
+    .header {
+        background-color: #AED6F1;
+    }
+    
+    td.editable {
+      cursor: pointer;
+    }
+    td.editable {
+      width: 250px; 
+      box-sizing: border-box;
+    }
+    a {
+        text-decoration: none;
+        border: 1px solid #5cb85c;
+        background-color: #5cb85c;
+        padding: 8px 16px;
+        cursor: pointer;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 500;
+        border-radius: 5px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="searchInput">Enter Product Name:</label>
+        <select name="searchInput" id="searchInput">
+            <option selected disabled>-- Product Name --</option>
+            <option value="g90">G90</option>
+            <option value="ngc">NGC</option>
+            <option value="y1 (ultra) bus">Y1 (ULTRA) Bus</option>
+            <option value="daf xf105">DAF XF105</option>
+            <option value="actros-12">ACTROS-12</option>
+            <option value="antos">ANTOS</option>
+            <option value="volvo fh|fm">VOLVO FH|FM</option>
+            <option value="new signa">NEW SIGNA</option>
+            <option value="cosmo">COSMO</option>
+            <option value="g3">G3</option>
+            <option value="prima">PRIMA</option>
+            <option value="t 3500">T 3500</option>
+            <option value="eicher skyline executive">EICHER SKYLINE EXECUTIVE</option>
+            <option value="sckool bus">SCKOOL BUS</option>
+            <option value="eicher skyline 41">EICHER SKYLINE 41"</option>
+            <option value="eicher skyline 42">EICHER SKYLINE 42"</option>
+            <option value="eicher skyline 43">EICHER SKYLINE 43"</option>
+            <option value="t 1312 - old signa">T 1312 - OLD SIGNA</option>
+            <option value="marcopolo">MARCOPOLO</option>
+            <option value="bharat benz">Bharat Benz</option>
+            <option value="917ac bus">917AC Bus</option>
+            <option value="bharat benz ldt">Bharat Benz LDT</option>
+            <option value="g2">G2</option>
+            <option value="navistar">NAVISTAR</option>
+            <option value="sml s7">SML S7</option>
+            <option value="sml 50xl bus">SML 50XL BUS</option>
+            <option value="columbus">Columbus</option>
+          </select>    
+        <button onclick="search()">Search</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        async function search() {
+            const searchInput = document.getElementById('searchInput');
+            const resultDiv = document.getElementById('result');
+
+            const response = await fetch('/search', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({ name: searchInput.value }),
+            });
+
+            const result = await response.json();
+
+            if (result) {
+                resultDiv.innerHTML = 
+                `<table border="1">
+                    <tr>
+                        <td class="header">Product Name</td>
+                        <td class="editable" data-field="email">${result.name}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="header">Furnace Type</td>
+                        <td class="editable" data-field="email">${result.type}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">2D Glass Thickness(Inner+outer)</td>
+                        <td class="editable" data-field="email">${result.thickness}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">DB2 (Left Side)</td>
+                        <td class="editable" data-field="email">${result.db2}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">DB1 (Center)</td>
+                        <td class="editable" data-field="email"> ${result.db1}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">DB3 (Right Side)</td>
+                        <td class="editable" data-field="email">${result.db3}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">Curvature GAP (Max)</td>
+                        <td class="editable" data-field="email">${result.gap}</td>
+                    </tr>
+                    <tr>
+                        <td class="header">DB2 AND DB3 DIST FROM DB1</td>
+                        <td class="editable" data-field="email">${result.distance}</td>
+                    </tr>
+                </table>
+                <br>
+                <a href="http://localhost:3000/edit/${result.name}">Edit Product</a>`;
+
+            } else {
+                resultDiv.innerHTML = 'No matching record found.';
+            }
+        }
+    </script>
+</body>
+</html>
