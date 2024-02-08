@@ -1,0 +1,22 @@
+{
+  "name": "brower",
+  "version": "1.0.0",
+  "description": "1) Download the index.html, server.js & data1.xlsv files.\r 2) Open terminal in VS Code and type \"npm init\".\r 3) Then \"npm i express exceljs body-parser nodemon\".\r 4) Start the project using \"npm start\".\r 5) Open Browser then search \"localhost:3000\".",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "method-override": "^3.0.0",
+    "nodemon": "^3.0.3",
+    "write-excel-file": "^1.4.29",
+    "xlsx": "^0.18.5"
+  }
+}
